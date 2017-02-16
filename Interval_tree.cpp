@@ -1,3 +1,5 @@
+//This program inserts intervals in interval tree and searchs for any given interval
+//If the interval is not found in the tree , then it returns the interval[-1,-1]
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -77,8 +79,23 @@ void printtree(node* nnode)
 	printtree(nnode->llink);
 	printtree(nnode->rlink);
 }
+
+node search(node* nnode,node yo)
+{
+	node temp;
+	temp.low = -1;temp.high = -1;
+	
+	if(nnode->low <= yo.low && nnode->high>=yo.low)return *nnode;
+	if(nnode->low <= yo.high && nnode->high >=yo.high)return *nnode;
+	
+	if(nnode->llink != NULL &&  (nnode->llink)->maxm > yo.low)return search(nnode->llink,yo);
+	if(nnode->rlink != NULL)return search(nnode->rlink,yo);
+	return temp;
+}
+
 int main()
 {
+	
 	
 	node temp;
 	for(int i=0;i<6;i++)
@@ -86,8 +103,11 @@ int main()
 	insert(temp);
 	}
 	printtree(root);
-	
-	
+	for(int i=0;i<2;i++){
+		cin >> temp.low >> temp.high ;
+		node found = search(root,temp);
+		cout << "Overlaps with the interval {"<<found.low<<","<<found.high<<"}"<<endl;
+	}
 	
 }
 
@@ -98,4 +118,6 @@ int main()
 5 20
 12 15
 30 40
+14 16
+41 42
 */

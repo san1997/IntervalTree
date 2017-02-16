@@ -92,6 +92,76 @@ node search(node* nnode,node yo)
 	if(nnode->rlink != NULL)return search(nnode->rlink,yo);
 	return temp;
 }
+node* moveright(node* nnode)
+{
+	if(nnode->rlink == NULL)return nnode;
+	return moveright(nnode->rlink);
+}
+node* moveleft(node* nnode)
+{
+	if(nnode->llink == NULL)return nnode;
+	return moveleft(nnode->llink);
+}
+
+void findmaxms()
+{
+	queue<node* > q;
+	q.push(root);
+	vec.clear();
+	while(q.size()!=0)
+	{	
+		node* f = (q.front());
+	//	cout << q.front() <<" " <<f<<endl;
+		vec.push_back(q.front());
+		if((q.front())->llink != NULL)q.push(f->llink);
+		if((q.front())->rlink != NULL)q.push(f->rlink);
+		q.pop();
+	}
+//	cout <<"yup";
+	int i =vec.size()-1;
+
+	while(i>=0)
+	{	//cout <<"yes";
+		vec[i]->maxm = findmax(vec[i]);i--;
+	}
+}
+
+void deletenode(node* nnode,node yo)
+{
+	if(yo.low == nnode->low && yo.high == nnode->high)
+	{
+		
+		if(nnode->rlink!= NULL)
+		{
+			node* temp = moveleft(nnode->rlink);
+			nnode->high = temp->high;
+			nnode->low = temp->low;
+			nnode->maxm = temp->maxm;
+			temp = NULL;
+		}
+		if(nnode->llink != NULL)
+		{
+			node* temp = moveright(nnode->llink);
+			nnode->high = temp->high;
+			nnode->low = temp->low;
+			nnode->maxm = temp->maxm;
+			temp = NULL;
+		}
+		else{
+			nnode = NULL;	
+		}
+		findmaxms();
+		return ;
+	}
+	if(nnode->low >= yo.low)
+	{
+		deletenode(nnode->llink,yo);
+	}
+	else{
+		deletenode(nnode->rlink,yo);
+	}
+	
+}
 
 int main()
 {

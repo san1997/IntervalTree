@@ -172,7 +172,7 @@ int main()
 	{cin >> temp.low >> temp.high;
 	insert(temp);
 	}
-	printtree(root);
+	//printtree(root);
 	for(int i=0;i<2;i++){
 		cin >> temp.low >> temp.high ;
 		node found = search(root,temp);
@@ -189,5 +189,5 @@ int main()
 12 15
 30 40
 14 16
-41 42
+21 23
 */
